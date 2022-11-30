@@ -1,19 +1,43 @@
-const express = require("express");
-const controller = require("./controllers");
-require("./models");
-const bodyParser = require("body-parser");
+const sequelize = require("./config/database");
+const app = require("./app");
 
-const app = express();
+const logger = require("./config/logger");
 
-const port = 8080;
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-console.log("==", process);
-app.get("/", (req, resp) => {
-  resp.send("hello world");
-});
-app.post("/create-user", controller.userController);
+let server;
+sequelize
+  //.sync({force : true})
+  .sync()
+  .then(() => {
+    server = app.listen(process.env.PORT);
+    //pending set timezone
+    console.log(`App listening on port http://localhost:${process.env.PORT}`);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
-app.listen(port, () => {
-  console.log(`Server run in http://localhost:${port}`);
+const exitHandler = () => {
+  if (server) {
+    server.close(() => {
+      logger.info("Server closed");
+      process.exit(1);
+    });
+  } else {
+    process.exit(1);
+  }
+};
+
+const unexpectedErrorHandler = (error) => {
+  logger.error(error);
+  exitHandler();
+};
+
+process.on("uncaughtException", unexpectedErrorHandler);
+process.on("unhandledRejection", unexpectedErrorHandler);
+
+process.on("SIGTERM", () => {
+  logger.info("SIGTERM received");
+  if (server) {
+    server.close();
+  }
 });
