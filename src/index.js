@@ -12,7 +12,7 @@ sequelize
   .sync()
   .then(() => {
     server = app.listen(process.env.PORT);
-    //pending set timezone
+
     console.log(`App listening on port http://localhost:${process.env.PORT}`);
   })
   .catch((err) => {
@@ -38,9 +38,20 @@ const unexpectedErrorHandler = (error) => {
 process.on("uncaughtException", unexpectedErrorHandler);
 process.on("unhandledRejection", unexpectedErrorHandler);
 
-process.on("SIGTERM", () => {
+// for ctrl+c
+process.on("SIGINT", async () => {
+  logger.info("SIGINT received");
+  if (server) {
+    await sequelize.close();
+    await server.close();
+  }
+});
+
+// kill process id
+process.on("SIGTERM", async () => {
   logger.info("SIGTERM received");
   if (server) {
-    server.close();
+    await sequelize.close();
+    await server.close();
   }
 });
