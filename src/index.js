@@ -38,7 +38,7 @@ const unexpectedErrorHandler = (error) => {
 process.on("uncaughtException", unexpectedErrorHandler);
 process.on("unhandledRejection", unexpectedErrorHandler);
 
-// for ctrl+c
+// ctrl+c
 process.on("SIGINT", async () => {
   logger.info("SIGINT received");
   if (server) {
