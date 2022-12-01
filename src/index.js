@@ -1,7 +1,10 @@
 const sequelize = require("./config/database");
 const app = require("./app");
+const env = require("dotenv");
 
 const logger = require("./config/logger");
+
+env.config();
 
 let server;
 sequelize

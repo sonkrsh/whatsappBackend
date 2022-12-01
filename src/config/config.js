@@ -10,7 +10,11 @@ const envVarsSchema = Joi.object()
       .valid("production", "development", "test")
       .required(),
     PORT: Joi.number().default(3000),
-    MONGODB_URL: Joi.string().required().description("Mongo DB url"),
+    DB_DATABASE: Joi.string().required().description("Mysql Database"),
+    DB_USERNAME: Joi.string().required().description("Mysql Username"),
+    DB_PASSWORD: Joi.string().allow(null, ""),
+    DB_DIALECT: Joi.string().required().description("dialect (mysql)"),
+    DB_HOST: Joi.string().required().description("HOST (localhost)"),
     JWT_SECRET: Joi.string().required().description("JWT secret key"),
     JWT_ACCESS_EXPIRATION_MINUTES: Joi.number()
       .default(30)
@@ -45,13 +49,12 @@ if (error) {
 module.exports = {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
-  mongoose: {
-    url: envVars.MONGODB_URL + (envVars.NODE_ENV === "test" ? "-test" : ""),
-    options: {
-      useCreateIndex: true,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    },
+  mysql: {
+    db_name: envVars.DB_DATABASE,
+    db_userName: envVars.DB_USERNAME,
+    db_password: envVars.DB_PASSWORD,
+    db_dialect: envVars.DB_DIALECT,
+    db_host: envVars.DB_HOST,
   },
   jwt: {
     secret: envVars.JWT_SECRET,
