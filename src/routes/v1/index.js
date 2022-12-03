@@ -1,12 +1,12 @@
 const express = require("express");
-const authRoute = require("./auth.routes");
+const adminRoute = require("./admin.routes");
 const router = express.Router();
 const config = require("../../config/config");
 
 const defaultRoutes = [
   {
-    path: "/auth",
-    route: authRoute,
+    path: "/admin",
+    route: adminRoute,
   },
 ];
 
