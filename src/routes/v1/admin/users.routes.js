@@ -6,6 +6,6 @@ const { addUser } = require("../../../controllers");
 
 const router = express.Router();
 
-router.post("/", validate(authValidation.register), addUser);
+router.post("/register", validate(authValidation.register), addUser);
 
 module.exports = router;
