@@ -3,9 +3,9 @@ const helmet = require("helmet");
 const xss = require("xss-clean");
 const compression = require("compression");
 const cors = require("cors");
-const httpStatus = require("http-status");
 const { userController } = require("./controllers");
 const routes = require("./routes/v1");
+const errorHandler = require("./middlewares/errorHandle.js");
 const app = express();
 
 // set security HTTP headers
@@ -31,14 +31,6 @@ app.options("*", cors());
 
 app.use("/v1", routes);
 
-// send back a 404 error for any unknown api request
-app.use((req, res, next) => {
-  next("Not found");
-});
-// // convert error to ApiError, if needed
-// app.use(errorConverter);
-
-// // handle error
-// app.use(errorHandler);
+app.use(errorHandler);
 
 module.exports = app;

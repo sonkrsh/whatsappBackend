@@ -12,11 +12,11 @@ sequelize
   .sync()
   .then(() => {
     server = app.listen(process.env.PORT);
-
-    console.log(`App listening on port http://localhost:${process.env.PORT}`);
+    logger.info("Connected to MYSQL");
+    logger.info(`App listening on port http://localhost:${process.env.PORT}`);
   })
   .catch((err) => {
-    console.log(err);
+    logger.log("Database connection error");
   });
 
 const exitHandler = () => {
