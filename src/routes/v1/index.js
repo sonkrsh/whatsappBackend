@@ -10,12 +10,7 @@ const defaultRoutes = [
   },
 ];
 
-const devRoutes = [
-  //   {
-  //     path: "/docs",
-  //     route: docsRoute,
-  //   },
-];
+const devRoutes = [];
 
 defaultRoutes.forEach((route) => {
   router.use(route.path, route.route);

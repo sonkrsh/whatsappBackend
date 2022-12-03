@@ -3,7 +3,7 @@ const helmet = require("helmet");
 const xss = require("xss-clean");
 const compression = require("compression");
 const cors = require("cors");
-const { userController } = require("./controllers");
+
 const routes = require("./routes/v1");
 const errorHandler = require("./middlewares/errorHandle.js");
 const app = express();
@@ -19,8 +19,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // sanitize request data
 app.use(xss());
-
-app.post("/create-user", userController);
 
 // gzip compression
 app.use(compression());
