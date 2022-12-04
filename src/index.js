@@ -16,7 +16,7 @@ sequelize
     logger.info(`App listening on port http://localhost:${process.env.PORT}`);
   })
   .catch((err) => {
-    logger.log("Database connection error");
+    logger.info("Database connection error", err);
   });
 
 const exitHandler = () => {

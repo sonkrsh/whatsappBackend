@@ -7,6 +7,10 @@ const users = sequelize.define("users", {
     type: DataTypes.STRING,
     defaultValue: "test@gmail.com",
   },
+  user_rights: {
+    type: DataTypes.STRING,
+    defaultValue: "admin",
+  },
   gender: {
     type: DataTypes.STRING,
     defaultValue: "male",

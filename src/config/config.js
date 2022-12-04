@@ -50,11 +50,11 @@ module.exports = {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
   mysql: {
-    db_name: envVars.DB_DATABASE,
-    db_userName: envVars.DB_USERNAME,
-    db_password: envVars.DB_PASSWORD,
-    db_dialect: envVars.DB_DIALECT,
-    db_host: envVars.DB_HOST,
+    database: envVars.DB_DATABASE,
+    username: envVars.DB_USERNAME,
+    password: envVars.DB_PASSWORD,
+    dialect: envVars.DB_DIALECT,
+    host: envVars.DB_HOST,
   },
   jwt: {
     secret: envVars.JWT_SECRET,
