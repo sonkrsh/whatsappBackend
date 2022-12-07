@@ -8,7 +8,7 @@ env.config();
 
 let server;
 sequelize
-  //.sync({force : true})
+  // .sync({ force: true })
   .sync()
   .then(() => {
     server = app.listen(process.env.PORT);

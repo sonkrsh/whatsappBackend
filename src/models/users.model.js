@@ -1,20 +1,44 @@
 const { DataTypes } = require("sequelize");
+const { get } = require("lodash");
 const sequelize = require("../config/database");
+const bcrypt = require("bcryptjs");
 
-const users = sequelize.define("users", {
-  name: DataTypes.STRING,
-  email: {
-    type: DataTypes.STRING,
-    defaultValue: "test@gmail.com",
+const users = sequelize.define(
+  "users",
+  {
+    name: {
+      type: DataTypes.STRING,
+    },
+    email: {
+      type: DataTypes.STRING,
+      validate: { isEmail: true },
+      allowNull: false,
+      unique: true,
+    },
+    password: {
+      type: DataTypes.STRING,
+      private: true,
+    },
+    user_rights: {
+      type: DataTypes.STRING,
+      defaultValue: "admin",
+    },
+    gender: {
+      type: DataTypes.STRING,
+      defaultValue: "male",
+    },
   },
-  user_rights: {
-    type: DataTypes.STRING,
-    defaultValue: "admin",
-  },
-  gender: {
-    type: DataTypes.STRING,
-    defaultValue: "male",
-  },
-});
+  {
+    hooks: {
+      beforeCreate: async ({ dataValues }) => {
+        dataValues.password = await bcrypt.hash(get(dataValues, "password"), 8);
+      },
+    },
+  }
+);
+
+users.isPasswordMatch = async (reqPassword, retrivePassword) => {
+  return await bcrypt.compare(reqPassword, retrivePassword);
+};
 
 module.exports = users;

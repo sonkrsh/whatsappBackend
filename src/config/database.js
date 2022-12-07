@@ -9,6 +9,7 @@ const DB_PASSWORD = mysql.password;
 const sequelize = new Sequelize(DB_DATABASE, DB_USERNAME, DB_PASSWORD, {
   dialect: mysql.dialect,
   host: mysql.host,
+  logging: false,
 });
 
 module.exports = sequelize;
