@@ -1,0 +1,25 @@
+const mongoose = require('mongoose');
+const { toJSON } = require('../plugins');
+
+const {{camelCase name}}Schema = mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+// add plugin that converts mongoose to json
+{{camelCase name}}Schema.plugin(toJSON);
+
+{{camelCase name}}Schema.pre('save', async function (next) {
+  next();
+});
+
+const {{pascal name}} = mongoose.model('{{camelCase name}}', {{camelCase name}}Schema);
+
+module.exports = {{pascal name}};

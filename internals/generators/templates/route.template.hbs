@@ -1,0 +1,10 @@
+const express = require('express');
+const validate = require('../../../middlewares/validate');
+const {{camelCase name}}Controller = require('../../../controllers/{{camelCase name}}Controller');
+const {{camelCase name}}Validation = require('../../../validations/{{camelCase name}}Validation');
+
+const router = express.Router();
+
+router.route('/{{camelCase name}}').post(validate({{camelCase name}}Validation.create{{pascal name}}), {{camelCase name}}Controller.create{{pascal name}});
+
+module.exports = router;
