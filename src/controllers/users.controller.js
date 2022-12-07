@@ -9,9 +9,10 @@ const { QueryTypes } = require("sequelize");
 const addUser = async (req, res, next) => {
   try {
     const resData = await users.create(req.body);
+
     res.status(httpStatus.CREATED).send({
       message: "success",
-      data: resData,
+      data: resData.toJSON(resData),
     });
   } catch (err) {
     return next(new ApiError(httpStatus.BAD_REQUEST, err));
@@ -19,20 +20,18 @@ const addUser = async (req, res, next) => {
 };
 
 const loginsUser = async (req, res, next) => {
-  const querySQL = `SELECT * from users WHERE email='${get(
-    req,
-    "body.email"
-  )}'`;
   try {
-    const retriveQuery = await database.query(querySQL, {
-      type: QueryTypes.SELECT,
+    const query = await users.findOne({
+      where: { email: get(req, "body.email") },
     });
+
+    const retriveQuery = query?.get();
 
     if (
       isEmpty(retriveQuery) ||
       !(await users.isPasswordMatch(
         get(req, "body.password"),
-        get(retriveQuery?.[0], "password")
+        get(retriveQuery, "password")
       ))
     ) {
       return next(
@@ -45,11 +44,10 @@ const loginsUser = async (req, res, next) => {
       );
     }
 
-    unset(retriveQuery?.[0], "password");
-    const createToken = await createAuth(retriveQuery?.[0]);
+    const createToken = await createAuth(retriveQuery);
     res.status(httpStatus.FOUND).send({
       message: "success",
-      data: { data: retriveQuery, token: createToken },
+      data: { data: query.toJSON(retriveQuery), token: createToken },
     });
   } catch (err) {
     return next(new ApiError(httpStatus.BAD_REQUEST, err));
