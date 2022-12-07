@@ -29,34 +29,28 @@ module.exports = (plop) => {
         },
         {
           type: "modify",
-          pattern: /(\/\/ ADD_REF)/g,
+          pattern: /(\/\/ ROUTES_REF)/g,
           path: "../../src/routes/v1/admin.routes.js",
           templateFile: "./templates/routeRef.template.hbs",
         },
 
-        // {
-        //   type: "add",
-        //   path: "../../src/services/{{camelCase name}}Service/index.js",
-        //   templateFile: "./templates/services.template.hbs",
-        // },
-        // {
-        //   type: "append",
-        //   pattern: "ADD_SERVICES",
-        //   path: "../../src/services/index.js",
-        //   templateFile: "./templates/servicesIndex.hbs",
-        // },
-
-        // {
-        //   type: "add",
-        //   path: "../../src/validations/{{camelCase name}}Validation/index.js",
-        //   templateFile: "./templates/validation.template.hbs",
-        // },
-        // {
-        //   type: "append",
-        //   pattern: "ADD_VALIDATION",
-        //   path: "../../src/validations/index.js",
-        //   templateFile: "./templates/validationIndex.hbs",
-        // },
+        {
+          type: "add",
+          path: "../../src/validations/{{name}}.validation.js",
+          templateFile: "./templates/validation.template.hbs",
+        },
+        {
+          type: "modify",
+          pattern: /(\/\/ ADD_VALIDATION)/g,
+          path: "../../src/validations/index.js",
+          templateFile: "./templates/validationIndex.hbs",
+        },
+        {
+          type: "modify",
+          pattern: /(\/\/ VALIDATION_REF)/g,
+          path: "../../src/validations/index.js",
+          templateFile: "./templates/validationRef.template.hbs",
+        },
 
         // {
         //   type: "add",
