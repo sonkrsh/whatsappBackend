@@ -1,14 +1,12 @@
-const { users } = require("../models");
+const { usersModel } = require("../models");
 const httpStatus = require("http-status");
-const { get, isEmpty, unset } = require("lodash");
-const database = require("../config/database");
+const { get, isEmpty } = require("lodash");
 const { createAuth } = require("../middlewares/auth");
 const ApiError = require("../utils/ApiError");
-const { QueryTypes } = require("sequelize");
 
 const addUser = async (req, res, next) => {
   try {
-    const resData = await users.create(req.body);
+    const resData = await usersModel.create(req.body);
 
     res.status(httpStatus.CREATED).send({
       message: "success",
@@ -21,7 +19,7 @@ const addUser = async (req, res, next) => {
 
 const loginsUser = async (req, res, next) => {
   try {
-    const query = await users.findOne({
+    const query = await usersModel.findOne({
       where: { email: get(req, "body.email") },
     });
 
@@ -29,7 +27,7 @@ const loginsUser = async (req, res, next) => {
 
     if (
       isEmpty(retriveQuery) ||
-      !(await users.isPasswordMatch(
+      !(await usersModel.isPasswordMatch(
         get(req, "body.password"),
         get(retriveQuery, "password")
       ))
