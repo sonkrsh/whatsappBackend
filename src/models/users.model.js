@@ -41,7 +41,7 @@ users.isPasswordMatch = async (reqPassword, retrivePassword) => {
   return await bcrypt.compare(reqPassword, retrivePassword);
 };
 
-users.prototype.toJSON = function (jj) {
+users.prototype.toJSON = function () {
   var values = Object.assign({}, this.get());
 
   delete values.password;
