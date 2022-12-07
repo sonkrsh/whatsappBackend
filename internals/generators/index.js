@@ -52,29 +52,41 @@ module.exports = (plop) => {
           templateFile: "./templates/validationRef.template.hbs",
         },
 
-        // {
-        //   type: "add",
-        //   path: "../../src/models/{{camelCase name}}Model/index.js",
-        //   templateFile: "./templates/model.template.hbs",
-        // },
-        // {
-        //   type: "append",
-        //   pattern: "ADD_MODEL",
-        //   path: "../../src/models/index.js",
-        //   templateFile: "./templates/modelIndex.hbs",
-        // },
+        {
+          type: "add",
+          path: "../../src/models/{{name}}.model.js",
+          templateFile: "./templates/model.template.hbs",
+        },
+        {
+          type: "modify",
+          pattern: /(\/\/ ADD_MODEL)/g,
+          path: "../../src/models/index.js",
+          templateFile: "./templates/modelIndex.hbs",
+        },
+        {
+          type: "modify",
+          pattern: /(\/\/ MODEL_REF)/g,
+          path: "../../src/models/index.js",
+          templateFile: "./templates/modelRef.template.hbs",
+        },
 
-        // {
-        //   type: "add",
-        //   path: "../../src/controllers/{{camelCase name}}Controller/index.js",
-        //   templateFile: "./templates/controller.template.hbs",
-        // },
-        // {
-        //   type: "append",
-        //   pattern: "ADD_CONTROLLER",
-        //   path: "../../src/controllers/index.js",
-        //   templateFile: "./templates/controllerIndex.hbs",
-        // },
+        {
+          type: "add",
+          path: "../../src/controllers/{{name}}.controller.js",
+          templateFile: "./templates/controller.template.hbs",
+        },
+        {
+          type: "modify",
+          pattern: /(\/\/ ADD_CONTROLLER)/g,
+          path: "../../src/controllers/index.js",
+          templateFile: "./templates/controllerIndex.hbs",
+        },
+        {
+          type: "modify",
+          pattern: /(\/\/ CONTROLLER_REF)/g,
+          path: "../../src/controllers/index.js",
+          templateFile: "./templates/controllerRef.template.hbs",
+        },
       ];
       actions.push({
         type: "prettify",

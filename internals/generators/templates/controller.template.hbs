@@ -1,12 +1,16 @@
-const catchAsync = require('../../utils/catchAsync');
-// const { {{camelCase name}}Service } = require('../../services');
+const { {{name}}Model } = require("../models");
+const httpStatus = require("http-status");
+const { get, isEmpty } = require("lodash");
+const { createAuth } = require("../middlewares/auth");
+const successHandle = require("../middlewares/successHandle");
+const ApiError = require("../utils/ApiError");
 
-const create{{pascal name}} = catchAsync(async (req, res) => {
-// const user = await {{camelCase name}}Service.create{{camelCase
-name}}(req.body);
-// res.send({ user });
-});
-
-module.exports = {
-create{{pascal name}},
+const create{{name}} = async (req, res, next) => {
+  try {
+    const resData = await {{name}}Model.create(req.body);
+    successHandle(res, httpStatus.CREATED, resData.toJSON(resData));
+  } catch (err) {
+    return next(new ApiError(httpStatus.BAD_REQUEST, err));
+  }
 };
+
