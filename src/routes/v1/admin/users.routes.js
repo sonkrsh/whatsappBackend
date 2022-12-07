@@ -16,6 +16,6 @@ router.post(
   validate(usersValidation.login),
   userController.loginsUser
 );
-router.get("/all-users", userController.allUsers);
+router.get("/all-users", verifyAuth(), userController.allUsers);
 
 module.exports = router;
