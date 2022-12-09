@@ -5,7 +5,7 @@ const { createAuth } = require("../middlewares/auth");
 const successHandle = require("../middlewares/successHandle");
 const ApiError = require("../utils/ApiError");
 
-const create{{name}} = async (req, res, next) => {
+const create{{pascal name}} = async (req, res, next) => {
   try {
     const resData = await {{name}}Model.create(req.body);
     successHandle(res, httpStatus.CREATED, resData.toJSON(resData));
@@ -14,4 +14,4 @@ const create{{name}} = async (req, res, next) => {
   }
 };
 
-module.exports = { create{{name}} };
+module.exports = { create{{pascal name}} };
