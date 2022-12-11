@@ -19,31 +19,33 @@ const loginsUser = async (req, res, next) => {
     const query = await usersModel.findOne({
       where: { email: get(req, "body.email") },
     });
+    if (!isEmpty(query)) {
+      const retriveQuery = query.get();
 
-    const retriveQuery = query?.get();
+      if (
+        isEmpty(retriveQuery) ||
+        !(await usersModel.isPasswordMatch(
+          get(req, "body.password"),
+          get(retriveQuery, "password")
+        ))
+      ) {
+        return next(
+          new ApiError(
+            httpStatus.NOT_FOUND,
+            isEmpty(retriveQuery)
+              ? "Not Found Any Record With This Credentials"
+              : "Password Not Match"
+          )
+        );
+      }
 
-    if (
-      isEmpty(retriveQuery) ||
-      !(await usersModel.isPasswordMatch(
-        get(req, "body.password"),
-        get(retriveQuery, "password")
-      ))
-    ) {
-      return next(
-        new ApiError(
-          httpStatus.NOT_FOUND,
-          isEmpty(retriveQuery)
-            ? "Not Found Any Record With This Credentials"
-            : "Password Not Match"
-        )
-      );
+      const createToken = await createAuth(retriveQuery);
+      return successHandle(res, httpStatus.FOUND, {
+        data: query.toJSON(retriveQuery),
+        token: createToken,
+      });
     }
-
-    const createToken = await createAuth(retriveQuery);
-    successHandle(res, httpStatus.FOUND, {
-      data: query.toJSON(retriveQuery),
-      token: createToken,
-    });
+    return next(new ApiError(httpStatus.NOT_FOUND, "user not Found"));
   } catch (err) {
     return next(new ApiError(httpStatus.BAD_REQUEST, err));
   }

@@ -6,9 +6,9 @@ const config = require("../config/config");
 
 const verifyAuth = () => async (req, res, next) => {
   return new Promise(async (resolve, reject) => {
-    const extractToken = split(get(req, "headers.authorization"), " ")?.[1];
-
     try {
+      const extractToken = split(get(req, "headers.authorization"), " ")[1];
+
       jwt.verify(extractToken, get(config, "jwt.secret"));
       resolve();
     } catch (error) {

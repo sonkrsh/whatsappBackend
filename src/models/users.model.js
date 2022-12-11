@@ -29,6 +29,7 @@ const users = sequelize.define(
     },
   },
   {
+    underscored: true,
     hooks: {
       beforeCreate: async ({ dataValues }) => {
         dataValues.password = await bcrypt.hash(get(dataValues, "password"), 8);
