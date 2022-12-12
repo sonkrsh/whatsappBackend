@@ -1,5 +1,6 @@
 const express = require("express");
 const helmet = require("helmet");
+const path = require("path");
 const xss = require("xss-clean");
 const compression = require("compression");
 const cors = require("cors");
@@ -26,6 +27,8 @@ app.use(compression());
 // enable cors
 app.use(cors());
 app.options("*", cors());
+
+app.use(express.static(path.join(__dirname, "uploads")));
 
 app.use("/v1", routes);
 

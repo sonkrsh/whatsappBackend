@@ -10,6 +10,9 @@ const envVarsSchema = Joi.object()
       .valid("production", "development", "test")
       .required(),
     PORT: Joi.number().default(3000),
+    IMAGE_URL: Joi.string().required().description("image url"),
+    IMAGE_RESIZE: Joi.string().required().description("image resize"),
+    IMAGE_QUALITY: Joi.string().required().description("image quality"),
     DB_DATABASE: Joi.string().required().description("Mysql Database"),
     DB_USERNAME: Joi.string().required().description("Mysql Username"),
     DB_PASSWORD: Joi.string().allow(null, ""),
@@ -49,6 +52,11 @@ if (error) {
 module.exports = {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
+  image: {
+    image_url: envVars.IMAGE_URL,
+    image_resize: envVars.IMAGE_RESIZE,
+    image_quality: envVars.IMAGE_QUALITY,
+  },
   mysql: {
     database: envVars.DB_DATABASE,
     username: envVars.DB_USERNAME,
