@@ -8,8 +8,8 @@ env.config();
 
 let server;
 sequelize
-  .sync({ force: true })
-  // .sync()
+  // .sync({ force: true })
+  .sync()
   .then(() => {
     server = app.listen(process.env.PORT);
     logger.info("Connected to MYSQL");
