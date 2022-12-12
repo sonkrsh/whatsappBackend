@@ -8,6 +8,12 @@ const users = sequelize.define(
   {
     name: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    user_uuid: {
+      allowNull: false,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
     },
     email: {
       type: DataTypes.STRING,

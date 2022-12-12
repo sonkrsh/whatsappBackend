@@ -5,6 +5,11 @@ const sequelize = require("../config/database");
 const {{name}} = sequelize.define(
   "{{name}}",
   {
+    {{name}}_uuid: {
+      allowNull: false,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+    },
     name: {
       type: DataTypes.STRING,
     },
